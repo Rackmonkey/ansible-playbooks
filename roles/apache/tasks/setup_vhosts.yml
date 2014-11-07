@@ -1,0 +1,22 @@
+## Configure user
+- name: Apache | Virtualhost add | Setup user
+  user: name={{ item.domain }} group={{ item.domain }} home={{apache_rootpath}}/{{ item.domain }} shell="/bin/false" comment={{apache_rootpath}} vHost
+  with_items: apache_vhosts
+
+- name: Apache | Virtualhost add | Push virtualhost configuration template
+  template: src=templates/apache/vhost{{apache_version}}_{{apache_php}}.conf.j2 dest=/etc/apache2/sites-available/{{item.domain}}.conf
+  with_items: apache_vhosts
+
+- name: Apache | Virtualhost add | Ensure folder exist
+  file: path={{apache_rootpath}}/{{ item.domain }}/htdocs state=directory owner={{ item.domain }} group={{ item.domain }} mode=0755
+  with_items: apache_vhosts
+
+- name: Apache | Virtualhost add | Activate virtual hosts
+  command: /usr/sbin/a2ensite {{item.domain}}
+  with_items: apache_vhosts 
+  when: item.enabled == true
+
+- name: Apache | Virtualhost add | Disable virtual hosts
+  command: /usr/sbin/a2dissite {{item.domain}}
+  with_items: apache_vhosts 
+  when: item.enabled != true

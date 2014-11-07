@@ -1,0 +1,17 @@
+<VirtualHost *:80>
+        ServerName {{ item.domain }}       
+        {% if item.serveradmin is defined %}
+                ServerAdmin {{ item.serveradmin }}
+        {% endif %}
+        DocumentRoot {{ item.root }}/{{ item.domain }}/htdocs
+        <Directory {{ item.root }}/{{ item.domain }}/htdocs>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog {{ item.root }}/{{ item.domain }}/logs/error.apache.log
+        LogLevel info
+        CustomLog {{ item.root }}/{{ item.domain }}/logs/access.log combined
+        # ServerSignature On
+</VirtualHost>

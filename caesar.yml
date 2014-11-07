@@ -1,0 +1,6 @@
+---
+# file: caesar.yml
+
+- hosts: caesar
+  tasks: 
+    - include: tasks/apache/vhost2.2_add.yml 

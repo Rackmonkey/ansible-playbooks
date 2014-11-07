@@ -1,0 +1,20 @@
+---
+# File: main.yml
+# Type: defaults
+# Part: Apache2
+
+apache_rootpath: /var/www
+#apache_version: "2.2" # wird gegrept
+
+# mod_php, fcgi_php
+apache_php: "mod_php"
+
+apache_mpm_worker: "prefork"
+
+apache_listen_port: 80
+
+apache_aktivate_modules:
+  - rewrite
+
+apache_deaktivate_modules:
+  - deflate

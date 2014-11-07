@@ -1,0 +1,4 @@
+host_vars/
+group_vars/
+sftp-config.json
+hosts
