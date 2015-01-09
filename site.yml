@@ -1,3 +1,6 @@
 ---
 # file: site.yml
-- include: caesar.yml
+# vorsicht caesar ist group!
+- hosts: caesar 
+  roles:
+  	- { role: apache }

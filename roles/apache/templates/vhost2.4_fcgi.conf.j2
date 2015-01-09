@@ -1,17 +1,17 @@
 <VirtualHost *:80>
-        DocumentRoot {{ vhost.rootpath }}/{{ vhost.domain }}/htdocs
-        ServerName {{ vhost.domain }}
-        ServerAdmin admin@{{ vhost.domain }}
+        DocumentRoot {{ item.rootpath }}/{{ item.domain }}/htdocs
+        ServerName {{ item.domain }}
+        ServerAdmin admin@{{ item.domain }}
 
-        <Directory {{ vhost.rootpath }}/{{ vhost.domain }}/htdocs>
+        <Directory {{ item.rootpath }}/{{ item.domain }}/htdocs>
                 Options -Indexes
                 Require all granted
                 AllowOverride All
         </Directory>
 
-        ErrorLog {{ vhost.rootpath }}/{{ vhost.domain }}/logs/error.apache.log
+        ErrorLog {{ item.rootpath }}/{{ item.domain }}/logs/error.apache.log
         LogLevel info
-        CustomLog {{ vhost.rootpath }}/{{ vhost.domain }}/logs/access.log combined
+        CustomLog {{ item.rootpath }}/{{ item.domain }}/logs/access.log combined
 
         <FilesMatch ".+\.ph(p[345]?|t|tml)$">
                 SetHandler application/x-httpd-php
@@ -19,7 +19,7 @@
 
         # Define Action and Alias needed for FastCGI external server.
         Action application/x-httpd-php /fcgi-bin/php5-fpm virtual
-        Alias /fcgi-bin/php5-fpm /fpm-{{ vhost.domain }}
+        Alias /fcgi-bin/php5-fpm /fpm-{{ item.domain }}
 
         <Location /fcgi-bin/php5-fpm>
                 # here we prevent direct access to this Location url,
@@ -31,8 +31,8 @@
         <IfModule mod_fastcgi.c>
                 # throws error, so disabled:
                 # [warn] FastCGI: there is no fastcgi wrapper set, user/group options are ignored
-                #FastCgiExternalServer /fpm-{{ vhost.domain }} -host 127.0.0.1:{{ vhost.fpmPort }} -pass-header Authorization -user {{ vhost.domain }} -group {{ vhost.domain }}
-                FastCgiExternalServer /fpm-{{ vhost.domain }} -host 127.0.0.1:{{ vhost.fpmPort }} -pass-header Authorization
+                #FastCgiExternalServer /fpm-{{ item.domain }} -host 127.0.0.1:{{ item.fpmPort }} -pass-header Authorization -user {{ item.domain }} -group {{ item.domain }}
+                FastCgiExternalServer /fpm-{{ item.domain }} -host 127.0.0.1:{{ item.fpmPort }} -pass-header Authorization
         </IfModule>
 
 </VirtualHost>

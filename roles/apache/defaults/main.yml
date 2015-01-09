@@ -18,3 +18,13 @@ apache_aktivate_modules:
 
 apache_deaktivate_modules:
   - deflate
+
+  apache_vhosts:
+  - {
+    root: apache_rootpath,
+    domain: domain.tld,
+    serveradmin: admin@domain.tld,
+    fpmPort: 9001,
+    enabled: true,
+    delete: false
+  }
